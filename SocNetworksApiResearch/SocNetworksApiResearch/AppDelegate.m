@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "AuthViewController.h"
 
 @implementation AppDelegate
 
@@ -14,7 +15,12 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor grayColor];
+    
+    AuthViewController* authViewController = [AuthViewController new];
+    //    [self.window addSubview:authViewController.view];
+    [self.window setRootViewController:authViewController];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
