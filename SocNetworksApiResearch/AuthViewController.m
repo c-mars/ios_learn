@@ -15,7 +15,7 @@
 
 @implementation AuthViewController
 
-@synthesize authView, indicator;
+@synthesize authView, indicator, textError;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,6 +30,7 @@
 {
     [super viewDidLoad];
     authView.hidden = YES;
+    textError.hidden = YES;
     
     NSString* client_id = @"4472085";
     NSString* scope = @"friends,wall,messages,audio";
@@ -50,15 +51,19 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if ([authView.request.URL.absoluteString rangeOfString:@"access_token"].location != NSNotFound) {
         authView.hidden = YES;
+        textError.hidden = YES;
         NSString *secret = [authView.request.URL.absoluteString getStringBetweenString:@"access_token" andString:@"&"]; //извлекаем из ответа token
         NSLog(@"secret=%@", secret); //печатаем secret в консоль
     } else if ([authView.request.URL.absoluteString rangeOfString:@"error"].location != NSNotFound) {
         authView.hidden = YES;
+        textError.hidden = NO;
         NSLog(@"error=%@", authView.request.URL.absoluteString); //выводим ошибку
     } else {
+        textError.hidden = YES;
         authView.hidden = NO; //показываем окно авторизации
     }
     [indicator stopAnimating];
+    indicator.hidden = YES;
 }
 
 @end
