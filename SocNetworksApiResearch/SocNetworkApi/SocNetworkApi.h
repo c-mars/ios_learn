@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SocNetworkApi <NSObject>
+// This is common social network protocol to perform base operations with social networks api
 
-- (void) startAuth;
-- (BOOL) authResult;
+typedef enum {ESUCCESS = 0, EERROR = 1, EUNKNOWN = 2} AuthResult;
+
+@protocol SocNetworkApi
+
+- (NSString*) startAuthURL;
+- (BOOL) authResult:(NSString*)resultURL;
 
 - (NSMutableArray*) getFriends;
 - (BOOL) wallPost:(NSString*)title :(NSString*)message :(UIImage*)image;

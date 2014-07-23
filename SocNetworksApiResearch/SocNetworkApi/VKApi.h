@@ -11,13 +11,17 @@
 
 @interface VKApi : NSObject<SocNetworkApi> {
     NSString* authString;
+    NSString* token;
+    NSString* error;
 }
 
-- (void) startAuth;
-- (BOOL) authResult;
+- (NSString*) startAuthURL;
+- (BOOL) authResult:(NSString*)resultURL;
+@property (readonly) NSString* token;
+@property (readonly) NSString* error;
 
-- (NSMutableArray*) getFriends;
-- (BOOL) wallPost:(NSString*)title :(NSString*)message :(UIImage*)image;
-- (NSInteger) getLikesForWallPost:(NSInteger) postId;
+//- (NSMutableArray*) getFriends;
+//- (BOOL) wallPost:(NSString*)title :(NSString*)message :(UIImage*)image;
+//- (NSInteger) getLikesForWallPost:(NSInteger) postId;
 
 @end

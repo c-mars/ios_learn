@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "VKApi.h"
 @interface AuthViewController : UIViewController<UIWebViewDelegate> {
     UIWebView *authView;
     UIActivityIndicatorView *indicator;

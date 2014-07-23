@@ -7,13 +7,14 @@
 //
 
 #import "VKApi.h"
-
+#import "SocNetworkApi.h"
 @implementation VKApi
 
 NSString* CLIENT_ID = @"4472085";
 NSString* SCOPE = @"friends,wall,messages,audio";
 NSString* AUTH_URL_TEMPLATE = @"https://api.vkontakte.ru/oauth/authorize?client_id=%@&scope=%@&redirect_uri=blank.html&response_type=token";
 
+@synthesize token, error;
 
 - (id)init
 {
@@ -21,17 +22,27 @@ NSString* AUTH_URL_TEMPLATE = @"https://api.vkontakte.ru/oauth/authorize?client_
     if (self)
     {
         authString = [NSString stringWithFormat:AUTH_URL_TEMPLATE, CLIENT_ID, SCOPE];
+        token = nil;
+        error = nil;
     }
     return self;
 }
 
-- (BOOL) startAuth:(UIWebView*) authView :(UITextView*)textError {
-    authView.hidden = YES;
-    textError.hidden = YES;
-    
-    NSURL *authURL = [[NSURL alloc] initWithString:authString];
-    NSURLRequest *authRequest = [[NSURLRequest alloc] initWithURL:authURL];
-    [authView loadRequest:authRequest];
+// Authorization process start routine. Displays WebView (authView) to user to provide authorization
+- (NSString*) startAuth {
+    return authString;
+}
+
+// Callback that is called on auth url load finished
+- (NSInteger) authResult:(NSString*)resultURL;
+    if ([resultURL rangeOfString:@"access_token"].location != NSNotFound) {
+        token = [resultURL getStringBetweenString:@"access_token" andString:@"&"]; //извлекаем из ответа token
+        return ESUCCESS;
+    } else if ([resultURL rangeOfString:@"error"].location != NSNotFound) {
+        error = resultURL;
+        return EERROR;
+    };
+    return EUNKNOWN;
 }
 
 @end
