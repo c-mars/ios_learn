@@ -8,20 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "SocNetworkApi.h"
+#import "SocNetworkApiImpl.h"
 
-@interface VKApi : NSObject<SocNetworkApi> {
-    NSString* authString;
-    NSString* token;
-    NSString* error;
-}
+@interface VKApi : SocNetworkApiImpl<SocNetworkApi>
 
-- (NSString*) startAuthURL;
-- (BOOL) authResult:(NSString*)resultURL;
-@property (readonly) NSString* token;
-@property (readonly) NSString* error;
+//- (NSString*) startAuthURL;
+@property (readonly, getter = startAuthURL) NSString* startAuthURL;
+- (AuthResult) authResult:(NSString*)resultURL;
 
-//- (NSMutableArray*) getFriends;
-//- (BOOL) wallPost:(NSString*)title :(NSString*)message :(UIImage*)image;
-//- (NSInteger) getLikesForWallPost:(NSInteger) postId;
+// Base operations
+- (void) sendMessage:(NSString*) message;
+- (void) sendToWall:(NSInteger)friendId :(NSString*)message :(NSString*)imageURL;
+- (void) sendToMyWall:(NSString*)message :(NSString*)imageURL;
+- (NSMutableArray*) getFriends;
+
+// Additional
+- (NSInteger) getLikesCountForWallPost:(NSInteger) postId;
 
 @end

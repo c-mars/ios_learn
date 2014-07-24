@@ -14,11 +14,17 @@ typedef enum {ESUCCESS = 0, EERROR = 1, EUNKNOWN = 2} AuthResult;
 
 @protocol SocNetworkApi
 
-- (NSString*) startAuthURL;
-- (BOOL) authResult:(NSString*)resultURL;
+//- (NSString*) startAuthURL;
+@property (readonly) NSString* startAuthURL;
+- (AuthResult) authResult:(NSString*)resultURL;
 
+// Base operations
+- (void) sendMessage:(NSString*) message;
+- (void) sendToWall:(NSInteger)friendId :(NSString*)message :(NSString*)imageURL;
+- (void) sendToMyWall:(NSString*)message :(NSString*)imageURL;
 - (NSMutableArray*) getFriends;
-- (BOOL) wallPost:(NSString*)title :(NSString*)message :(UIImage*)image;
-- (NSInteger) getLikesForWallPost:(NSInteger) postId;
+
+// Additional
+- (NSInteger) getLikesCountForWallPost:(NSInteger) postId;
 
 @end
